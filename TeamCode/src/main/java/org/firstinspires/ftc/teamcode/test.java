@@ -42,27 +42,39 @@ import com.qualcomm.robotcore.util.Range;
 @TeleOp(name="teleop", group="Iterative Opmode")
 public class test extends OpMode
 {
-    public DcMotor wheel;
-    public DcMotor wheel2;
-    public Servo intake1;
-    public Servo intake2;
-    public DcMotor leftfront;
+    double shooterPower = 0;    //power for shooter
+    double pulleyPower = 0;     //power for pulley
+    
+    public DcMotor shooter;     //wheels to shoot rings
+    public DcMotor shooter2;
+    
+    public Servo intake1;       //right intake??
+    public Servo intake2;       //left intake??
+    
+    public DcMotor pulley;      //pulley to lift for shooter
+    
+    public DcMotor leftfront;   //wheels
     public DcMotor leftback;
     public DcMotor rightfront;
     public DcMotor rightback;
-    public DcMotor pulley;
+    
+  
     @Override
     public void init() {
 
-        wheel = hardwareMap.dcMotor.get("wheel");
-        wheel2 = hardwareMap.dcMotor.get("wheel2");
+        shooter = hardwareMap.dcMotor.get("shooter");
+        shooter2 = hardwareMap.dcMotor.get("shooter2");
+        
         intake2 = hardwareMap.servo.get("intake1");
         intake1 = hardwareMap.servo.get("intake2");
+        
         pulley = hardwareMap.dcMotor.get("pulley");
+        
         leftfront = hardwareMap.dcMotor.get("leftfront");
         leftback = hardwareMap.dcMotor.get("leftback");
         rightback = hardwareMap.dcMotor.get("rightback");
         rightfront = hardwareMap.dcMotor.get("rightfront");
+        
         rightback.setDirection(DcMotorSimple.Direction.REVERSE);
         rightfront.setDirection(DcMotorSimple.Direction.REVERSE);
 
@@ -74,6 +86,7 @@ public class test extends OpMode
         float y;
         float z;
 
+        //GAMEPAD 2 ------------------------------------------
         if (Math.abs(gamepad2.left_stick_x) > .1) {
             x = gamepad2.left_stick_x;
         } else {
@@ -93,29 +106,58 @@ public class test extends OpMode
         }
 
         if (gamepad1.x) {
-            wheel.setPower(1);
-            wheel2.setPower(1);
-        } else {
-            wheel.setPower(0.0);
-            wheel2.setPower(0.0);
+            shooterPower = 1;
+       
+        } else if (gamepad1.y){
+            shooterPower = 0;
+            
         }
 
+
+        //GAMEPAD 1 ------------------------------------------
+        
+        //intake
         if((gamepad1.right_trigger) >0.1) {
             intake1.setPosition(intake1.getPosition() + 0.1);
+            
         } else if ((gamepad1.left_trigger) >0.1) {
             intake1.setPosition(intake1.getPosition() - 0.1);
+            
         } else {
             intake1.setPosition(0.5);
+            
         }
-        if((gamepad1.right_trigger) >0.1) {
+        
+        /* pulley lift
+        left trigger = goes up
+        right trigger = goes down */
+        if (Math.abs(gamepad1.left_trigger) > .1) {
+            pulleyPower = -1;
+
+        } else if (Math.abs(gamepad1.right_trigger) > .1) {
+            pulleyPower = 1;
+
+        } else {
+            pulleyPower = 0;
+
+        }
+        
+        
+        /*if((gamepad1.right_trigger) >0.1) {
             intake2.setPosition(intake2.getPosition() + 0.1);
+            
         } else if ((gamepad1.left_trigger) >0.1) {
             intake2.setPosition(intake2.getPosition() - 0.1);
+            
         } else {
             intake2.setPosition(0.5);
-        }
+            
+        }*/
 
-        pulley.setPower(gamepad1.right_stick_x/2);
+        shooter.setPower(shooterPower);
+        shooter2.setPower(shooterPower);
+
+        pulley.setPower(pulleyPower*0.5);
 
         leftback.setPower((x - y - z)*.75);
         leftfront.setPower((-x - y -z)*.75);
