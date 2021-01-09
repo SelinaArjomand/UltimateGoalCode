@@ -1,0 +1,150 @@
+<html>
+<head>
+<title>test.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #808080;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #cc7832;}
+.s3 { color: #6a8759;}
+.s4 { color: #6897bb;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+test.java</font>
+</center></td></tr></table>
+<pre><span class="s0">/* Copyright (c) 2017 FIRST. All rights reserved. 
+ * 
+ * Redistribution and use in source and binary forms, with or without modification, 
+ * are permitted (subject to the limitations in the disclaimer below) provided that 
+ * the following conditions are met: 
+ * 
+ * Redistributions of source code must retain the above copyright notice, this list 
+ * of conditions and the following disclaimer. 
+ * 
+ * Redistributions in binary form must reproduce the above copyright notice, this 
+ * list of conditions and the following disclaimer in the documentation and/or 
+ * other materials provided with the distribution. 
+ * 
+ * Neither the name of FIRST nor the names of its contributors may be used to endorse or 
+ * promote products derived from this software without specific prior written permission. 
+ * 
+ * NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE GRANTED BY THIS 
+ * LICENSE. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ * &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, 
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE 
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE 
+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR 
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, 
+ * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
+ */</span>
+
+<span class="s2">package </span><span class="s1">org.firstinspires.ftc.teamcode</span><span class="s2">;</span>
+
+<span class="s2">import </span><span class="s1">com.qualcomm.robotcore.eventloop.opmode.Disabled</span><span class="s2">;</span>
+<span class="s2">import </span><span class="s1">com.qualcomm.robotcore.eventloop.opmode.OpMode</span><span class="s2">;</span>
+<span class="s2">import </span><span class="s1">com.qualcomm.robotcore.eventloop.opmode.TeleOp</span><span class="s2">;</span>
+<span class="s2">import </span><span class="s1">com.qualcomm.robotcore.hardware.DcMotor</span><span class="s2">;</span>
+<span class="s2">import </span><span class="s1">com.qualcomm.robotcore.hardware.DcMotorSimple</span><span class="s2">;</span>
+<span class="s2">import </span><span class="s1">com.qualcomm.robotcore.hardware.Servo</span><span class="s2">;</span>
+<span class="s2">import </span><span class="s1">com.qualcomm.robotcore.util.ElapsedTime</span><span class="s2">;</span>
+<span class="s2">import </span><span class="s1">com.qualcomm.robotcore.util.Range</span><span class="s2">;</span>
+
+
+<span class="s1">@TeleOp(name=</span><span class="s3">&quot;teleop&quot;</span><span class="s2">, </span><span class="s1">group=</span><span class="s3">&quot;Iterative Opmode&quot;</span><span class="s1">)</span>
+<span class="s2">public class </span><span class="s1">test </span><span class="s2">extends </span><span class="s1">OpMode</span>
+<span class="s1">{</span>
+    <span class="s2">public </span><span class="s1">DcMotor wheel</span><span class="s2">;</span>
+    <span class="s2">public </span><span class="s1">DcMotor wheel2</span><span class="s2">;</span>
+    <span class="s2">public </span><span class="s1">Servo intake1</span><span class="s2">;</span>
+    <span class="s2">public </span><span class="s1">Servo intake2</span><span class="s2">;</span>
+    <span class="s2">public </span><span class="s1">DcMotor leftfront</span><span class="s2">;</span>
+    <span class="s2">public </span><span class="s1">DcMotor leftback</span><span class="s2">;</span>
+    <span class="s2">public </span><span class="s1">DcMotor rightfront</span><span class="s2">;</span>
+    <span class="s2">public </span><span class="s1">DcMotor rightback</span><span class="s2">;</span>
+    <span class="s2">public </span><span class="s1">DcMotor pulley</span><span class="s2">;</span>
+    <span class="s1">@Override</span>
+    <span class="s2">public void </span><span class="s1">init() {</span>
+
+        <span class="s1">wheel = hardwareMap.dcMotor.get(</span><span class="s3">&quot;wheel&quot;</span><span class="s1">)</span><span class="s2">;</span>
+        <span class="s1">wheel2 = hardwareMap.dcMotor.get(</span><span class="s3">&quot;wheel2&quot;</span><span class="s1">)</span><span class="s2">;</span>
+        <span class="s1">intake2 = hardwareMap.servo.get(</span><span class="s3">&quot;intake1&quot;</span><span class="s1">)</span><span class="s2">;</span>
+        <span class="s1">intake1 = hardwareMap.servo.get(</span><span class="s3">&quot;intake2&quot;</span><span class="s1">)</span><span class="s2">;</span>
+        <span class="s1">pulley = hardwareMap.dcMotor.get(</span><span class="s3">&quot;pulley&quot;</span><span class="s1">)</span><span class="s2">;</span>
+        <span class="s1">leftfront = hardwareMap.dcMotor.get(</span><span class="s3">&quot;leftfront&quot;</span><span class="s1">)</span><span class="s2">;</span>
+        <span class="s1">leftback = hardwareMap.dcMotor.get(</span><span class="s3">&quot;leftback&quot;</span><span class="s1">)</span><span class="s2">;</span>
+        <span class="s1">rightback = hardwareMap.dcMotor.get(</span><span class="s3">&quot;rightback&quot;</span><span class="s1">)</span><span class="s2">;</span>
+        <span class="s1">rightfront = hardwareMap.dcMotor.get(</span><span class="s3">&quot;rightfront&quot;</span><span class="s1">)</span><span class="s2">;</span>
+        <span class="s1">rightback.setDirection(DcMotorSimple.Direction.REVERSE)</span><span class="s2">;</span>
+        <span class="s1">rightfront.setDirection(DcMotorSimple.Direction.REVERSE)</span><span class="s2">;</span>
+
+
+    <span class="s1">}</span>
+    <span class="s1">@Override</span>
+    <span class="s2">public void </span><span class="s1">loop() {</span>
+        <span class="s2">float </span><span class="s1">x</span><span class="s2">;</span>
+        <span class="s2">float </span><span class="s1">y</span><span class="s2">;</span>
+        <span class="s2">float </span><span class="s1">z</span><span class="s2">;</span>
+
+        <span class="s2">if </span><span class="s1">(Math.abs(gamepad2.left_stick_x) &gt; </span><span class="s4">.1</span><span class="s1">) {</span>
+            <span class="s1">x = gamepad2.left_stick_x</span><span class="s2">;</span>
+        <span class="s1">} </span><span class="s2">else </span><span class="s1">{</span>
+            <span class="s1">x = </span><span class="s4">0</span><span class="s2">;</span>
+        <span class="s1">}</span>
+
+        <span class="s2">if </span><span class="s1">(Math.abs(gamepad2.left_stick_y) &gt; </span><span class="s4">.1</span><span class="s1">) {</span>
+            <span class="s1">y = -gamepad2.left_stick_y</span><span class="s2">;</span>
+        <span class="s1">} </span><span class="s2">else </span><span class="s1">{</span>
+            <span class="s1">y = </span><span class="s4">0</span><span class="s2">;</span>
+        <span class="s1">}</span>
+
+        <span class="s2">if </span><span class="s1">(Math.abs(gamepad2.right_stick_x) &gt; </span><span class="s4">.1</span><span class="s1">) {</span>
+            <span class="s1">z = -gamepad2.right_stick_x</span><span class="s2">;</span>
+        <span class="s1">} </span><span class="s2">else </span><span class="s1">{</span>
+            <span class="s1">z = </span><span class="s4">0</span><span class="s2">;</span>
+        <span class="s1">}</span>
+
+        <span class="s2">if </span><span class="s1">(gamepad1.x) {</span>
+            <span class="s1">wheel.setPower(</span><span class="s4">1</span><span class="s1">)</span><span class="s2">;</span>
+            <span class="s1">wheel2.setPower(</span><span class="s4">1</span><span class="s1">)</span><span class="s2">;</span>
+        <span class="s1">} </span><span class="s2">else </span><span class="s1">{</span>
+            <span class="s1">wheel.setPower(</span><span class="s4">0.0</span><span class="s1">)</span><span class="s2">;</span>
+            <span class="s1">wheel2.setPower(</span><span class="s4">0.0</span><span class="s1">)</span><span class="s2">;</span>
+        <span class="s1">}</span>
+
+        <span class="s2">if</span><span class="s1">((gamepad1.right_trigger) &gt;</span><span class="s4">0.1</span><span class="s1">) {</span>
+            <span class="s1">intake1.setPosition(intake1.getPosition() + </span><span class="s4">0.1</span><span class="s1">)</span><span class="s2">;</span>
+        <span class="s1">} </span><span class="s2">else if </span><span class="s1">((gamepad1.left_trigger) &gt;</span><span class="s4">0.1</span><span class="s1">) {</span>
+            <span class="s1">intake1.setPosition(intake1.getPosition() - </span><span class="s4">0.1</span><span class="s1">)</span><span class="s2">;</span>
+        <span class="s1">} </span><span class="s2">else </span><span class="s1">{</span>
+            <span class="s1">intake1.setPosition(</span><span class="s4">0.5</span><span class="s1">)</span><span class="s2">;</span>
+        <span class="s1">}</span>
+        <span class="s2">if</span><span class="s1">((gamepad1.right_trigger) &gt;</span><span class="s4">0.1</span><span class="s1">) {</span>
+            <span class="s1">intake2.setPosition(intake2.getPosition() + </span><span class="s4">0.1</span><span class="s1">)</span><span class="s2">;</span>
+        <span class="s1">} </span><span class="s2">else if </span><span class="s1">((gamepad1.left_trigger) &gt;</span><span class="s4">0.1</span><span class="s1">) {</span>
+            <span class="s1">intake2.setPosition(intake2.getPosition() - </span><span class="s4">0.1</span><span class="s1">)</span><span class="s2">;</span>
+        <span class="s1">} </span><span class="s2">else </span><span class="s1">{</span>
+            <span class="s1">intake2.setPosition(</span><span class="s4">0.5</span><span class="s1">)</span><span class="s2">;</span>
+        <span class="s1">}</span>
+
+        <span class="s1">pulley.setPower(gamepad1.right_stick_x/</span><span class="s4">2</span><span class="s1">)</span><span class="s2">;</span>
+
+        <span class="s1">leftback.setPower((x - y - z)*</span><span class="s4">.75</span><span class="s1">)</span><span class="s2">;</span>
+        <span class="s1">leftfront.setPower((-x - y -z)*</span><span class="s4">.75</span><span class="s1">)</span><span class="s2">;</span>
+        <span class="s1">rightback.setPower((-x - y + z)*</span><span class="s4">.75</span><span class="s1">)</span><span class="s2">;</span>
+        <span class="s1">rightfront.setPower((x - y + z)*</span><span class="s4">.75</span><span class="s1">)</span><span class="s2">;</span>
+
+
+    <span class="s1">}</span>
+
+<span class="s1">}</span>
+
+</pre>
+</body>
+</html>
